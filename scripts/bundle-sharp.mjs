@@ -47,11 +47,15 @@ mkdirSync(DIST_NM, { recursive: true })
 
 cpSync(join(ROOT_NM, 'sharp'), join(DIST_NM, 'sharp'), { recursive: true })
 
+// sharp's non-optional runtime deps. Verified: each has zero transitive
+// runtime deps, so we don't need a full tree walk.
+const SHARP_DEPS = Object.keys(sharpPkg.dependencies || {})
+
 mkdirSync(join(DIST_NM, '@img'), { recursive: true })
-for (const pkg of PREBUILDS) {
+for (const pkg of [...SHARP_DEPS, ...PREBUILDS]) {
   const src = join(ROOT_NM, pkg)
   if (!existsSync(src)) {
-    console.error(`Missing prebuild: ${pkg} — did npm install fail?`)
+    console.error(`Missing dep: ${pkg} — did npm install fail?`)
     process.exit(1)
   }
   const dest = join(DIST_NM, pkg)
