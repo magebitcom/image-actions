@@ -11,7 +11,7 @@ import {
   IGNORE_PATHS,
   COMPRESS_ONLY,
   MIN_PCT_CHANGE
-} from './constants.ts'
+} from './constants'
 
 interface Config {
   compressOnly: boolean

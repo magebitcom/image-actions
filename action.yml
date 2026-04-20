@@ -52,8 +52,8 @@ outputs:
     description: "Output param used to store the Markdown summary for subsequent actions to use"
 
 runs:
-  using: "docker"
-  image: "Dockerfile" 
+  using: "node24"
+  main: "dist/index.js"
 
 branding:
   icon: "image"

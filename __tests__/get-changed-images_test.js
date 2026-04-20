@@ -1,8 +1,8 @@
 import { beforeEach, afterEach, test, expect, vi } from 'vitest'
 import { Octokit } from '@octokit/action'
 import { context } from '@actions/github'
-import getChangedImages from '../src/get-changed-images.ts'
-import getConfig from '../src/config.ts'
+import getChangedImages from '../src/get-changed-images'
+import getConfig from '../src/config'
 
 vi.mock('@octokit/action')
 vi.mock('@actions/github', () => ({
@@ -18,7 +18,7 @@ vi.mock('@actions/github', () => ({
     }
   }
 }))
-vi.mock('../src/config.ts')
+vi.mock('../src/config')
 
 const mockListFiles = vi.fn()
 const mockGetConfig = vi.fn()

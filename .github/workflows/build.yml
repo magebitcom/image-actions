@@ -1,28 +1,17 @@
-name: Docker
+name: CI
 permissions:
   contents: read
-  packages: write
-  attestations: write
-  id-token: write
 
 on:
   push:
     branches:
       - main
-
-    # Publish `v1.2.3` tags as releases.
     tags:
       - v*
 
-  # Run tests for any PRs.
   pull_request:
 
-env:
-  IMAGE_NAME: image-actions
-
 jobs:
-  # Run tests and quality checks.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
   test:
     runs-on: ubuntu-latest
 
@@ -32,63 +21,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run TypeScript checks
-        run: npx tsc --noEmit
+      - name: TypeScript check
+        run: npm run typecheck
 
-      - name: Run linting
+      - name: Lint
         run: npm run lint
 
-      - name: Check formatting
+      - name: Format check
         run: npm run format-check
 
-      - name: Run tests
+      - name: Tests
+        run: npm run test
+
+      - name: Rebuild dist/
+        run: npm run build
+
+      - name: Verify dist/ is committed and up to date
         run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker compose --file docker-compose.test.yml build
-            docker compose --file docker-compose.test.yml run test
-          else
-            docker build . --file Dockerfile
+          if ! git diff --exit-code --stat dist/; then
+            echo "::error::dist/ is out of date. Run 'npm run build' and commit the result."
+            exit 1
           fi
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  push:
-    # Ensure test job passes before pushing image.
-    needs: test
-
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
-    steps:
-      - uses: actions/checkout@v6
-
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v4
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push image
-        run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "$default-branch" ] && VERSION=latest
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION

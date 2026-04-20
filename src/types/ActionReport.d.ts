@@ -1,4 +1,4 @@
-import type { ProcessedImagesResult } from './ProcessedImage.d.ts'
+import type { ProcessedImagesResult } from './ProcessedImage'
 
 export interface ActionSummaryReport {
   processingResults: ProcessedImagesResult

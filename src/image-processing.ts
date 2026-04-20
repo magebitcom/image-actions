@@ -4,15 +4,15 @@ import path from 'path'
 import * as core from '@actions/core'
 import sharp from 'sharp'
 
-import getConfig from './config.ts'
-import getChangedImages from './get-changed-images.ts'
-import getRepositoryImages from './get-repository-images.ts'
+import getConfig from './config'
+import getChangedImages from './get-changed-images'
+import getRepositoryImages from './get-repository-images'
 
 import {
   REPO_DIRECTORY,
   EXTENSION_TO_SHARP_FORMAT_MAPPING,
   MIN_PCT_CHANGE
-} from './constants.ts'
+} from './constants'
 
 const MAX_IMAGES_TO_COMMIT = 500
 
@@ -20,7 +20,7 @@ import type {
   ProcessedImage,
   ProcessedImageMetrics,
   ProcessedImagesResult
-} from './types/ProcessedImage.d.ts'
+} from './types/ProcessedImage'
 
 const discoverImages = async (): Promise<string[]> => {
   core.info('Locating images to process…')
