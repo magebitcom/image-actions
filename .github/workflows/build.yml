@@ -48,3 +48,27 @@ jobs:
             echo "::error::dist/ is out of date. Run 'npm run build' and commit the result."
             exit 1
           fi
+
+      - name: Smoke-test bundled action against only what git tracks
+        run: |
+          set -euo pipefail
+          WORK=$(mktemp -d)
+          SCRATCH=$(mktemp -d)
+          # Clone the committed tree (no node_modules, no untracked files) so we
+          # exercise exactly what a consumer runner would download. Catches
+          # gitignored-bundle and missing-vendored-dep regressions.
+          git archive HEAD | tar -x -C "$WORK"
+          cp __tests__/example-images/icon.png "$SCRATCH/"
+          GITHUB_ACTION=smoke \
+          GITHUB_ACTIONS=true \
+          GITHUB_WORKSPACE="$SCRATCH" \
+          GITHUB_EVENT_NAME=push \
+          INPUT_GITHUB_TOKEN=fake \
+          INPUT_COMPRESSONLY=true \
+          INPUT_JPEGQUALITY=85 \
+          INPUT_PNGQUALITY=80 \
+          INPUT_WEBPQUALITY=85 \
+          INPUT_AVIFQUALITY=75 \
+          INPUT_MINPCTCHANGE=5 \
+          INPUT_IGNOREPATHS='node_modules/**' \
+            node "$WORK/dist/index.js"
