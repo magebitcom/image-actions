@@ -3,7 +3,7 @@ import { Octokit } from '@octokit/action'
 import { context } from '@actions/github'
 import pThrottle from 'p-throttle'
 
-import type { ProcessedImage } from './types/ProcessedImage.d.ts'
+import type { ProcessedImage } from './types/ProcessedImage'
 
 const api = new Octokit()
 

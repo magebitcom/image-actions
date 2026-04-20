@@ -1,16 +1,16 @@
 import path from 'path'
 import { promises as fs } from 'fs'
 import { beforeEach, afterEach, test, expect, vi } from 'vitest'
-import imageProcessing from '../src/image-processing.ts'
-import getRepositoryImages from '../src/get-repository-images.ts'
+import imageProcessing from '../src/image-processing'
+import getRepositoryImages from '../src/get-repository-images'
 
 // Mock the getRepositoryImages function
-vi.mock('../src/get-repository-images.ts', () => ({
+vi.mock('../src/get-repository-images', () => ({
   default: vi.fn()
 }))
 
 // Mock getChangedImages to return null (fallback to repository scan)
-vi.mock('../src/get-changed-images.ts', () => ({
+vi.mock('../src/get-changed-images', () => ({
   default: vi.fn(() => null)
 }))
 

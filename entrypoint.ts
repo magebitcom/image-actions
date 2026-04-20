@@ -1,10 +1,8 @@
-#!/usr/bin/env node --experimental-strip-types
-
 import * as core from '@actions/core'
 import { context } from '@actions/github'
-import { GITHUB_EVENT_NAME, COMPRESS_ONLY } from './src/constants.ts'
+import { GITHUB_EVENT_NAME, COMPRESS_ONLY } from './src/constants'
 
-import run from './src/index.ts'
+import run from './src/index'
 
 const main = async () => {
   if (!COMPRESS_ONLY) {

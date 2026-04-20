@@ -1,14 +1,11 @@
 import crypto from 'crypto'
 import * as core from '@actions/core'
 import { context } from '@actions/github'
-import { GITHUB_REPOSITORY } from './constants.ts'
-import template from './template.ts'
-import getConfig from './config.ts'
-import type {
-  ProcessedImage,
-  ProcessedImageView
-} from './types/ProcessedImage.d.ts'
-import type { ActionSummaryReport } from './types/ActionReport.d.ts'
+import { GITHUB_REPOSITORY } from './constants'
+import template from './template'
+import getConfig from './config'
+import type { ProcessedImage, ProcessedImageView } from './types/ProcessedImage'
+import type { ActionSummaryReport } from './types/ActionReport'
 
 const MAX_IMAGES_DISPLAYED = 25
 

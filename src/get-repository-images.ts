@@ -2,8 +2,8 @@ import path from 'path'
 import { glob } from 'glob'
 import * as core from '@actions/core'
 
-import getConfig from './config.ts'
-import { REPO_DIRECTORY, FILE_EXTENSIONS_TO_PROCESS } from './constants.ts'
+import getConfig from './config'
+import { REPO_DIRECTORY, FILE_EXTENSIONS_TO_PROCESS } from './constants'
 
 const getRepositoryImages = async (): Promise<string[]> => {
   const config = await getConfig()

@@ -19,6 +19,11 @@ export default [
         sourceType: 'module'
       }
     },
+    settings: {
+      n: {
+        tryExtensions: ['.ts', '.d.ts', '.js', '.json', '.node']
+      }
+    },
     rules: {
       ...tseslint.configs.recommended.rules
     }

@@ -1,11 +1,11 @@
 import { beforeEach, afterEach, test, expect, vi } from 'vitest'
 import path from 'path'
 import { glob } from 'glob'
-import getRepositoryImages from '../src/get-repository-images.ts'
-import getConfig from '../src/config.ts'
+import getRepositoryImages from '../src/get-repository-images'
+import getConfig from '../src/config'
 
 vi.mock('glob')
-vi.mock('../src/config.ts')
+vi.mock('../src/config')
 
 const mockGlob = vi.fn()
 const mockGetConfig = vi.fn()

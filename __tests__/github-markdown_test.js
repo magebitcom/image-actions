@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest'
-import markdown from '../src/github-markdown.ts'
+import markdown from '../src/github-markdown'
 
 const results = {
   optimisedImages: [

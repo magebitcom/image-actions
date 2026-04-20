@@ -4,8 +4,8 @@ import { Octokit } from '@octokit/action'
 import { context } from '@actions/github'
 import * as core from '@actions/core'
 
-import { FILE_EXTENSIONS_TO_PROCESS, REPO_DIRECTORY } from './constants.ts'
-import getConfig from './config.ts'
+import { FILE_EXTENSIONS_TO_PROCESS, REPO_DIRECTORY } from './constants'
+import getConfig from './config'
 
 const getChangedImages = async (): Promise<string[] | null> => {
   try {
